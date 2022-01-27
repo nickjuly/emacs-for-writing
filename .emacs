@@ -1,10 +1,5 @@
 (cd "~/Documents")
-
-;(load-theme 'manoj-dark)
-
-(load-theme 'deeper-blue) ; trying it out
-(add-to-list 'default-frame-alist '(font . "Ubuntu Mono-22"))
-;;(add-to-list 'initial-frame-alist '(fullscreen . maximized)) ; magnet can't autoresize emacs
+(load-theme 'manoj-dark)
 (setq vc-follow-symlinks t)
 
 ;; don't clutter up working directory with backup files
@@ -21,11 +16,21 @@
 (desktop-save-mode 1)
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-hl-line-mode 1)
-(tool-bar-mode 0)
+(global-display-fill-column-indicator-mode) ; show where column 80 is..
+(setq-default fill-column 80)               ; and I want column 80 everywhere.. 
+(menu-bar-mode 0)
 (display-time-mode 1)
 (display-battery-mode 1)
-;(column-number-mode 1)
 (setq-default ispell-program-name "/opt/homebrew/bin/aspell")
+(windmove-default-keybindings) ; shift-left or right etc better than other-window C-x o
+
+;; UNDER CONSIDERATION
+;; critical for working with others
+(setq-default indent-tabs-mode nil) ;; always use spaces 
+
+
+;;;
+
 
 (defun swap-buffers ()
   (interactive)
@@ -33,6 +38,8 @@
 
 (global-unset-key [f4])
 (global-set-key [f4] (lambda () (interactive) (always-list-buffers)))
+
+
 
 (defun always-list-buffers ()
   "When called, make sure that the user is switched to the current buffer list, no matter what."
