@@ -1,4 +1,4 @@
-(cd "~/Documents")
+(cd "~/Documents/author")
 (load-theme 'manoj-dark)
 (setq vc-follow-symlinks t)
 
@@ -14,19 +14,79 @@
 (global-visual-line-mode t)
 (line-number-mode 0) ; visual-line-mode appears to break this, so disable
 (desktop-save-mode 1)
+
+;; makes desktop-save-mode work in terminal                                     
+(setq desktop-restore-forces-onscreen nil)                                      
+(add-hook 'desktop-after-read-hook
+          (lambda ()
+            (frameset-restore
+            desktop-saved-frameset
+            :reuse-frames (eq desktop-restore-reuses-frames t)
+            :cleanup-frames (not (eq desktop-restore-reuses-frames 'keep))
+            :force-display desktop-restore-in-current-display
+            :force-onscreen desktop-restore-forces-onscreen)))
+
 (defalias 'yes-or-no-p 'y-or-n-p)
 (global-hl-line-mode 1)
-(global-display-fill-column-indicator-mode) ; show where column 80 is..
-(setq-default fill-column 80)               ; and I want column 80 everywhere.. 
+;(global-display-fill-column-indicator-mode) ; show where column 80 is..
+;(setq-default fill-column 80)               ; and I want column 80 everywhere.. 
 (menu-bar-mode 0)
+
+(load "~/Documents/GitHub/emacs-for-writing/wc-goal-mode.el")
+(wc-goal-set-word-goal 1038)
+(add-hook 'org-mode-hook #'wc-goal-mode) ; word count!
+
+(setq display-time-24hr-format 1)
 (display-time-mode 1)
 (display-battery-mode 1)
 (setq-default ispell-program-name "/opt/homebrew/bin/aspell")
 (windmove-default-keybindings) ; shift-left or right etc better than other-window C-x o
 
+
+;; org-mode
+(setq org-odt-preferred-output-format "docx")
+
 ;; UNDER CONSIDERATION
 ;; critical for working with others
 (setq-default indent-tabs-mode nil) ;; always use spaces 
+
+
+(defun flyspell-emacs-popup-textual (event poss word)
+  "A textual flyspell popup menu."
+  (require 'popup)
+  (let* ((corrects (if flyspell-sort-corrections
+                       (sort (car (cdr (cdr poss))) 'string<)
+                     (car (cdr (cdr poss)))))
+         (cor-menu (if (consp corrects)
+                       (mapcar (lambda (correct)
+                                 (list correct correct))
+                               corrects)
+                     '()))
+         (affix (car (cdr (cdr (cdr poss)))))
+         show-affix-info
+         (base-menu  (let ((save (if (and (consp affix) show-affix-info)
+                                     (list
+                                      (list (concat "Save affix: " (car affix))
+                                            'save)
+                                      '("Accept (session)" session)
+                                      '("Accept (buffer)" buffer))
+                                   '(("Save word" save)
+                                     ("Accept (session)" session)
+                                     ("Accept (buffer)" buffer)))))
+                       (if (consp cor-menu)
+                           (append cor-menu (cons "" save))
+                         save)))
+         (menu (mapcar
+                (lambda (arg) (if (consp arg) (car arg) arg))
+                base-menu)))
+    (cadr (assoc (popup-menu* menu :scroll-bar t) base-menu))))
+
+(eval-after-load "flyspell"
+  '(progn
+     (fset 'flyspell-emacs-popup 'flyspell-emacs-popup-textual)))
+
+(add-hook 'org-mode-hook 'turn-on-flyspell)
+
 
 
 ;;;

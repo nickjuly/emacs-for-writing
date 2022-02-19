@@ -13,6 +13,7 @@
 5. Install extra apps that are helpful:
    `brew install aspell`  # spell checking
    `brew install ag`      # serious full text searching from the command line
+   `brew install --cask libreoffice` # org-mode export to docx/rtf
    
 6. Install a high-quality terminal and configure the terminal with a decent font:
    `brew install kitty`
