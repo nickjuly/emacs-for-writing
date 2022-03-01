@@ -52,18 +52,6 @@
 (add-hook 'org-mode-hook 'turn-on-flyspell)
 (setq org-replace-disputed-keys 'true) ; allows use of shift-arrow keys to navigate between buffers, even in org mode
 
-;; emphasis mods for long sections of italics.
-
-
-;; NOT WORKING
-(with-eval-after-load 'org
-  ;; Allow multiple line Org emphasis markup.
-  ;; http://emacs.stackexchange.com/a/13828/115
-  (setcar (nthcdr 4 org-emphasis-regexp-components) 20) ; 50 lines of italics, up from default of 1
-  ;; Below is needed to apply the modified `org-emphasis-regexp-components'
-  ;; settings from above.
-  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components))
-
 
 ;; UNDER CONSIDERATION
 ;; critical for working with others
