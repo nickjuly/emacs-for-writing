@@ -58,6 +58,11 @@
 (setq-default indent-tabs-mode nil) ;; always use spaces 
 
 
+;; Helps keep current text centered vertially, helpful to see the outline you've written below the current line, and keep the text in the middle of the display, particularly on laptops.
+(setq maximum-scroll-margin 0.5)
+
+(setq scroll-margin 20)
+
 
 
 ;;;
