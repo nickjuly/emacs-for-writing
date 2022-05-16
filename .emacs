@@ -2,12 +2,16 @@
 (load-theme 'manoj-dark)
 (setq vc-follow-symlinks t)
 
+;; make the GUI less terrible
+(add-to-list 'default-frame-alist '(font . "Ubuntu Mono-20"))
+(tool-bar-mode 0)
+
 ;; don't clutter up working directory with backup files
 (setq backup-directory-alist
       `(("." . ,(concat user-emacs-directory "backups")))) 
 ;; don't clutter up working directory with autosave files
 (setq auto-save-file-name-transforms
-      '((".*" "~/.emacs.d/auto-save-list/" t)))       
+      '((".*" "~/.emacs.d/auto-save-list/" t))) 
 
 
 (recentf-mode 1)
@@ -17,6 +21,7 @@
 (show-paren-mode 1)
 (global-visual-line-mode t)
 (line-number-mode 0) ; visual-line-mode appears to break this, so disable
+(column-number-mode 1)
 (desktop-save-mode 1)
 
 ;; makes desktop-save-mode work in terminal                                     
@@ -34,10 +39,8 @@
 (global-hl-line-mode 1)
 ;(global-display-fill-column-indicator-mode) ; show where column 80 is..
 ;(setq-default fill-column 80)               ; and I want column 80 everywhere.. 
-(menu-bar-mode 0)
 
 (load "~/Documents/GitHub/emacs-for-writing/wc-goal-mode.el")
-(wc-goal-set-word-goal 1038)
 (add-hook 'org-mode-hook #'wc-goal-mode) ; word count!
 
 (setq display-time-24hr-format 1)
